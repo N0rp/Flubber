@@ -1,0 +1,14 @@
+- JavaParser
+- Eclipse JDT which creates an Abstract Syntax Tree (AST) using the ASTParser
+
+- ANTLR (parser for a custom language)
+- JavaCC -> Java Tree Builder oder JJTree??
+- SableCC -> RefactorIt
+
+----
+tutorials:
+
+- Java Parser: http://www.programcreek.com/java-api-examples/index.php?api=japa.parser.JavaParser
+- ANTL Hello World Tutorial: http://meri-stuff.blogspot.de/2011/08/antlr-tutorial-hello-word.html
+
+- JGraphT Hello World: https://github.com/jgrapht/jgrapht/wiki/HelloWorld
