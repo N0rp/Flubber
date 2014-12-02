@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Importer {
+	
+	private final String resources = "StructypusLogger.java";
 
     public Importer(String path) throws FileNotFoundException {
 

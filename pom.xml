@@ -42,6 +42,23 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 		</dependency>
+
+		<!-- JavaParser, a java language parser -->
+		<dependency>
+			<groupId>com.google.code.javaparser</groupId>
+			<artifactId>javaparser</artifactId>
+			<version>1.0.11</version>
+		</dependency>
+		
+		<!-- JavaParser, a custom language parser -->
+		<dependency>
+		    <groupId>org.antlr</groupId>
+		    <artifactId>antlr</artifactId>
+		    <version>3.3</version>
+		   	<type>jar</type>
+		    <scope>compile</scope>
+		</dependency>
+		
 	</dependencies>
 
 
