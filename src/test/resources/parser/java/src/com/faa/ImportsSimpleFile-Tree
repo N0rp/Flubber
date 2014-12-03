@@ -1,0 +1,40 @@
+(compilationUnit 
+	(packageDeclaration package com . faa ;) 
+	(importDeclaration 
+		(singleTypeImportDeclaration import 
+			(typeName 
+				(packageOrTypeName 
+					(packageOrTypeName com)
+				. faa)
+			. SimpleFile)
+		;)
+	) 
+
+	(typeDeclaration 
+		(classDeclaration 
+			(normalClassDeclaration 
+				(classModifier public) 
+				class ImportsSimpleFile 
+				(classBody 
+				{ 
+					(classBodyDeclaration 
+						(classMemberDeclaration 
+							(methodDeclaration 
+								(methodModifier public)
+								(methodHeader 
+									(result void)
+									(methodDeclarator simpleMethod ( ))
+								) 
+								(methodBody 
+									(block { })
+								)
+							)
+						)
+					)
+				}
+				)
+			)
+		)
+	)
+	<EOF>
+)

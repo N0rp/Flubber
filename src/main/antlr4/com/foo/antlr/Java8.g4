@@ -190,6 +190,7 @@ ambiguousName
 /*
 * Productions from §7 (Packages)
 */
+// starting point for parsing a java file???
 compilationUnit
 : packageDeclaration? importDeclaration* typeDeclaration* EOF
 ;

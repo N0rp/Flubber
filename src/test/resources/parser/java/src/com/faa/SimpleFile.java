@@ -1,4 +1,4 @@
-package com.foo;
+package com.faa;
 
 import java.io.FileInputStream;
 import java.io.IOException;

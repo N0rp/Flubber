@@ -18,7 +18,7 @@ public class MethodPrinterTest {
 	
     @Test
     public void testImportsSimpleFile() {
-    	String filePath = TestProperties.RES_JAVA + "com/foo/ImportsSimpleFile.java";
+    	String filePath = TestProperties.RES_JAVA + "com/faa/ImportsSimpleFile.java";
         try {
             MethodPrinter printer = new MethodPrinter(filePath);
         } catch (FileNotFoundException e) {
