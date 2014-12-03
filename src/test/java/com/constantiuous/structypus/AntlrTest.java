@@ -31,7 +31,9 @@ import com.foo.antlr.ComponentFunction;
 import com.foo.antlr.Java8BaseListener;
 import com.foo.antlr.Java8Lexer;
 import com.foo.antlr.Java8Parser;
+import com.foo.antlr.Java8Parser.ClassBodyContext;
 import com.foo.antlr.Java8Parser.ClassBodyDeclarationContext;
+import com.foo.antlr.Java8Parser.ClassMemberDeclarationContext;
 import com.foo.antlr.Java8Parser.ImportDeclarationContext;
 import com.foo.antlr.Java8Parser.MethodDeclarationContext;
 import com.foo.antlr.Java8Parser.NormalClassDeclarationContext;
@@ -196,6 +198,7 @@ public class AntlrTest {
 	public static class AnnListener extends Java8BaseListener {
 		public HashMap<String, ComponentFunction> functions;
 		private MethodDeclarationContext currentMethod;
+		private NormalClassDeclarationContext classContext;
 		
 		public AnnListener() {
 			functions = new HashMap<String, ComponentFunction>();
@@ -210,18 +213,24 @@ public class AntlrTest {
 		
 		@Override
 		public void exitMethodDeclaration(MethodDeclarationContext ctx) {
+			// method if a class member declaration -> is a class body declaration -> is a class body -> is a normal class
 			System.out.println("<<Method Declaration exit: "
 					+ ctx.methodHeader().methodDeclarator().getText());
 			if(currentMethod == ctx){
 				System.out.println("Same Method Context!!!");
 			}
+			if(ctx.getParent() instanceof ClassMemberDeclarationContext
+					&& ctx.getParent().getParent() instanceof ClassBodyDeclarationContext
+					&& ctx.getParent().getParent().getParent() instanceof ClassBodyContext){
+				if(ctx.getParent().getParent().getParent().getParent() == classContext){
+					System.out.println("Method is inside our Class");
+				}
+			}else{
+				System.out.println("!!! Method is somewhere else");
+			}
 			
-			
-//			String functionName = ctx.methodName().getText();
-//			currentFunction = functionName;
-//			ComponentFunction function = new ComponentFunction(functionName);
-//			functions.put(functionName, function);
 		}
+		
 
 		@Override
 		public void exitImportDeclaration(ImportDeclarationContext ctx) {
@@ -247,6 +256,7 @@ public class AntlrTest {
 		public void enterNormalClassDeclaration(NormalClassDeclarationContext ctx) {
 			// enum classes are non-normal
 			System.out.println("<Normal Class Declaration enter: " + ctx.Identifier());
+			classContext = ctx;
 		}
 
 		@Override
@@ -259,8 +269,7 @@ public class AntlrTest {
 		public void exitMethodInvocation(
 				@NotNull Java8Parser.MethodInvocationContext ctx) {
 			System.out.println("<<Method invocation exit: "
-					+ ctx.methodName().getText());
-
+					+ ctx.methodName().getText()+" Rule Index:["+ctx.getRuleIndex()+"]");
 		}
 	}
 }
