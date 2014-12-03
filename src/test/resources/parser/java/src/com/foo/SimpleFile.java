@@ -1,4 +1,4 @@
-package com.constantinuous.structypus.logging;
+package com.foo;
 
 import java.io.FileInputStream;
 import java.io.IOException;

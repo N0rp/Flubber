@@ -1,4 +1,4 @@
-package com.constantinuous.structypus.logging;
+package com.foo;
 
 import com.foo.SimpleFile;
 

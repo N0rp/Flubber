@@ -49,23 +49,82 @@
 			<artifactId>javaparser</artifactId>
 			<version>1.0.11</version>
 		</dependency>
-		
-		<!-- JavaParser, a custom language parser -->
+
+		<!-- ANTLR, a custom language parser -->
 		<dependency>
-		    <groupId>org.antlr</groupId>
-		    <artifactId>antlr</artifactId>
-		    <version>3.3</version>
-		   	<type>jar</type>
-		    <scope>compile</scope>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4</artifactId>
+			<version>4.3</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
-		
+
+		<!-- JUNIT 4, for Tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 
 
 	<!-- Some of our plugins are executed here -->
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/gen</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/java</directory>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+
+
 		<plugins>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.3</version>
+				<executions>
+					<execution>
+						<id>antlr</id>
+						<goals>
+							<goal>antlr4</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src/main/gen</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+
 			<!-- Surefire is the standard Test Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -106,7 +165,8 @@
 				</executions>
 			</plugin>
 
-			<!-- Ensures correct Java Version. Does not help with selecting the correct JDK -->
+			<!-- Ensures correct Java Version. Does not help with selecting the correct 
+				JDK -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

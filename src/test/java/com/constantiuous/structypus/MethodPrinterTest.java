@@ -10,15 +10,15 @@ import org.junit.Test;
 
 import com.constantinuous.structypus.ingoing.Importer;
 import com.constantinuous.structypus.ingoing.MethodPrinter;
+import com.constantiuous.structypus.TestProperties;
 
 public class MethodPrinterTest {
 
-    String resources = "src/test/resources/";
-    String javares = resources + "parser/java/src/";
+    
 	
     @Test
     public void testImportsSimpleFile() {
-    	String filePath = javares + "com/foo/ImportsSimpleFile.java";
+    	String filePath = TestProperties.RES_JAVA + "com/foo/ImportsSimpleFile.java";
         try {
             MethodPrinter printer = new MethodPrinter(filePath);
         } catch (FileNotFoundException e) {

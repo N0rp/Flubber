@@ -1,10 +1,21 @@
+Names: Abstract Syntax Tree. compiler generator. parser generator. lexical analyzer. 
+---------------
 - JavaParser
 - Eclipse JDT which creates an Abstract Syntax Tree (AST) using the ASTParser
 
 - ANTLR (parser for a custom language)
-- JavaCC -> Java Tree Builder oder JJTree??
-- SableCC -> RefactorIt
+	- v4 Grammars: https://github.com/antlr/grammars-v4
+	- v3 C# 4.0 Grammar: https://github.com/ChristianWulf/CSharpGrammar
+	- Simple C# Grammar: http://stackoverflow.com/questions/17875974/antlr-v4-whats-wrong-with-this-simple-grammar-for-c-sharp-literals
+- JavaCC -> Java Tree Builder oder JJTree (before JavaCC, creates AST) https://java.net/projects/javacc/sources/svn/show/trunk/examples/JJTreeExamples/java?rev=689
+	- JavaCC Grammars: 
+- SableCC -> RefactorIt : http://www.dcs.gla.ac.uk/scripts/global/wim/blosxom.cgi/Gannet/Language/gannetc-compiler-sablecc.html
 
+- For c#: CoCo: http://www.ssw.uni-linz.ac.at/Coco/ http://www.cs.rit.edu/~ats/java/html/skript/8_JavaCC.htmld/
+
+- Gold
+
+- See CompilerTools: http://catalog.compilertools.net/java.html
 ----
 tutorials:
 
@@ -12,3 +23,8 @@ tutorials:
 - ANTL Hello World Tutorial: http://meri-stuff.blogspot.de/2011/08/antlr-tutorial-hello-word.html
 
 - JGraphT Hello World: https://github.com/jgrapht/jgrapht/wiki/HelloWorld
+- An Introduction to JavaCC: http://www.codeproject.com/Articles/35748/An-Introduction-to-JavaCC
+	- SimpleExample CC: https://javacc.java.net/doc/simpleREADME.html 
+
+---------
+Semantic Designs .com provides the: DMS® Software Reengineering Toolkit
