@@ -1,7 +1,9 @@
-package com.faa;
+package com.foo;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import com.faa.TestProperties;
+import com.foo.Anotherclass;
 
 public class SimpleFile {
 

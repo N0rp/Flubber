@@ -2,9 +2,12 @@ package com.constantiuous.structypus;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Stack;
+
+import junit.framework.Assert;
 
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -26,23 +29,34 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 
+import com.constantinuous.structypus.ingoing.java.JavaClass;
 import com.foo.antlr.ComponentFunction;
 import com.foo.antlr.Java8BaseListener;
 import com.foo.antlr.Java8Lexer;
 import com.foo.antlr.Java8Parser;
 import com.foo.antlr.Java8Parser.ClassBodyContext;
 import com.foo.antlr.Java8Parser.ClassBodyDeclarationContext;
+import com.foo.antlr.Java8Parser.ClassDeclarationContext;
 import com.foo.antlr.Java8Parser.ClassMemberDeclarationContext;
 import com.foo.antlr.Java8Parser.ImportDeclarationContext;
 import com.foo.antlr.Java8Parser.MethodDeclarationContext;
+import com.foo.antlr.Java8Parser.MethodInvocationContext;
+import com.foo.antlr.Java8Parser.MethodNameContext;
 import com.foo.antlr.Java8Parser.NormalClassDeclarationContext;
+import com.foo.antlr.Java8Parser.PackageDeclarationContext;
+import com.foo.antlr.Java8Parser.PrimaryContext;
 import com.foo.antlr.Java8Parser.SingleTypeImportDeclarationContext;
+import com.foo.antlr.Java8Parser.TypeDeclarationContext;
+import com.foo.antlr.Java8Parser.TypeNameContext;
 import com.foo.antlr.Java8Parser.VariableDeclaratorContext;
 
 public class AntlrTest {
 
-	@Test
+
+	
+//	@Test
 	public void testParseFile() throws Exception {
 		System.out.println("------------------------------");
 		String filePath = TestProperties.RES_JAVA
@@ -50,7 +64,7 @@ public class AntlrTest {
 		parseFile(filePath);
 	}
 
-	@Test
+	
 	public void testExampleField() throws Exception {
 		System.out.println("------------------------------");
 		String filePath = TestProperties.RES_JAVA
@@ -262,14 +276,60 @@ public class AntlrTest {
 		@Override
 		public void exitNormalClassDeclaration(NormalClassDeclarationContext ctx) {
 			// enum classes are non-normal
-			System.out.println("<Normal Class Declaration exit: " + ctx.Identifier());
+			
+			// outer classes are: inside classdeclaration -> inside typedeclaration -> inside compilationunit
+			// inner classes are: inside classdeclration -> inside classmemberdeclaration -> inside classdeclaration 
+			if(ctx.getParent() instanceof ClassDeclarationContext
+					&& ctx.getParent().getParent() instanceof TypeDeclarationContext){
+				// outer class
+			}else if(ctx.getParent() instanceof ClassDeclarationContext
+					&& ctx.getParent().getParent() instanceof ClassMemberDeclarationContext){
+				// inner class
+			}else{
+				System.err.println("!!! Neither inner nor outer class");
+			}
+			
+			System.out.println("<Normal Class Declaration exit: " + ctx.Identifier());	
 		}
 
 		@Override
-		public void exitMethodInvocation(
-				@NotNull Java8Parser.MethodInvocationContext ctx) {
-			System.out.println("<<Method invocation exit: "
-					+ ctx.methodName().getText()+" Rule Index:["+ctx.getRuleIndex()+"]");
+		public void exitPackageDeclaration(PackageDeclarationContext ctx) {
+			String pckName = "";
+			for(TerminalNode node : ctx.Identifier()){
+				if(pckName.length() > 0){
+					pckName += ".";
+				}
+				pckName += node.getText();
+			}
+			System.out.println("PackageName: "+pckName);
 		}
+		
+		@Override
+		public void exitMethodInvocation(MethodInvocationContext ctx) {
+			String className = "";
+			String methodName = "";
+			
+			if( (ctx.getChildCount() == 3 || ctx.getChildCount() == 4) && ctx.getChild(0) instanceof MethodNameContext){
+				// name + ( + args + )
+					methodName = ctx.methodName().getText();
+			}else if((ctx.getChildCount() == 5 || ctx.getChildCount() == 6) && ctx.getChild(0) instanceof TypeNameContext){
+				// obj + . + name + ( + args + )
+				className = ctx.getChild(0).getText();
+				
+				if(!ctx.getChild(1).getText().equals(".")){
+					System.err.println("<<<Second child should be a dot '.'");
+				}
+				methodName = ctx.getChild(2).getText();
+			}else if((ctx.getChildCount() == 1 || ctx.getChildCount() == 5) && ctx.getChild(0) instanceof PrimaryContext){
+				System.out.println("<<<Method Invocation on sth weird. Probably method call on anonymous object");
+			}
+			else{
+				System.err.println("<<<Method Invocation on sth weird");
+				methodName = "$$$"+ctx.methodName();
+			}
+			System.out.println("<<<Method invocation exit: "+className
+					+ " "+methodName);
+		}
+		
 	}
 }
